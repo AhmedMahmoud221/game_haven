@@ -5,9 +5,11 @@ import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class PopularGameTile extends StatelessWidget {
-  const PopularGameTile({super.key});
+  final GameModel? gameModel;
+  const PopularGameTile({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {

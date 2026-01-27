@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/extensions.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/core/widgets/games_shimmer_loading.dart';
+import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
+import 'package:game_haven/features/home/logic/cubit/home_state.dart';
 import 'package:game_haven/features/home/widgets/category_item.dart';
 import 'package:game_haven/features/home/widgets/game_header_card.dart';
 import 'package:game_haven/features/home/widgets/game_search_delegate.dart';
@@ -18,12 +22,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // بنعرف متغير يشيل رقم العنصر المختار حالياً
   int selectedCategoryIndex = 0;
 
   final List<String> categories = [
-    'Action', 'RPG', 'Mystery', 'Horror', 'Sports', 'Adventure',
+    'Action',
+    'RPG',
+    'Mystery',
+    'Horror',
+    'Sports',
+    'Adventure',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().emitGetGamesStates();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +56,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hello, Player !', style: TextStyles.font18WhiteMedium),
-                        Text('What are we playing today?', style: TextStyles.font14GreyRegular),
+                        Text(
+                          'Hello, Player !',
+                          style: TextStyles.font18WhiteMedium,
+                        ),
+                        Text(
+                          'What are we playing today?',
+                          style: TextStyles.font14GreyRegular,
+                        ),
                       ],
                     ),
                     Row(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.search, color: Colors.white, size: 32),
+                          icon: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                            size: 32,
+                          ),
                           onPressed: () {
                             showSearch(
                               context: context,
@@ -58,9 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         horizontalSpace(12.w),
                         IconButton(
-                          icon: const Icon(Icons.favorite_border, color: Colors.white, size: 32),
+                          icon: const Icon(
+                            Icons.favorite_border,
+                            color: Colors.white,
+                            size: 32,
+                          ),
                           onPressed: () {
-                            context.pushNamed(Routes.favoritesScreen); 
+                            context.pushNamed(Routes.favoritesScreen);
                           },
                         ),
                       ],
@@ -107,7 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Text('Popular Picks', style: TextStyles.font26WhiteSemiBold),
+                    child: Text(
+                      'Popular Picks',
+                      style: TextStyles.font26WhiteSemiBold,
+                    ),
                   ),
                   verticalSpace(16),
                   SizedBox(
@@ -138,12 +170,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => const PopularGameTile(),
-                childCount: 4,
-              ),
+
+            BlocBuilder<HomeCubit, HomeState>(
+              buildWhen: (previous, current) =>
+                  current is HomeLoading || current is HomeSuccess || current is HomeError,
+              builder: (context, state) {
+                if (state is HomeSuccess) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => PopularGameTile(
+                        gameModel: state.games[index],
+                      ),
+                      childCount: state.games.length,
+                    ),
+                  );
+                } else if (state is HomeLoading) {
+                  return const SliverToBoxAdapter(child: GamesShimmerLoading());
+                } else if (state is HomeError) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(state.message, style: TextStyles.font14GreyRegular)),
+                  );
+                }
+                return const SliverToBoxAdapter(child: SizedBox.shrink());
+              },
             ),
           ],
         ),

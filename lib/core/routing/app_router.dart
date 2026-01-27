@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_haven/core/di/dependency_injection.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/features/auth/login_screen.dart';
 import 'package:game_haven/features/auth/signup_screen.dart';
 import 'package:game_haven/features/home/home_screen.dart';
+import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
 import 'package:game_haven/features/home/main_wrapper.dart';
 import 'package:game_haven/features/home/widgets/favorites_screen.dart';
 import 'package:game_haven/features/home/widgets/game_details_screen.dart';
@@ -22,7 +25,12 @@ class AppRouter {
       case Routes.signupScreen:
         return MaterialPageRoute(builder: (_) => SignupScreen());
       case Routes.homeScreen:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<HomeCubit>(),
+            child: const HomeScreen(),
+        ),
+      );
       case Routes.mainScreen:
         return MaterialPageRoute(builder: (_) => MainWrapper());
       case Routes.favoritesScreen:

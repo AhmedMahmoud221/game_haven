@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:game_haven/core/di/dependency_injection.dart';
 import 'package:game_haven/features/home/home_screen.dart';
+import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
 import 'package:game_haven/features/library/library_screen.dart';
 import 'package:game_haven/features/profile/profile_screen.dart';
 import 'package:game_haven/features/search/search_screen.dart';
@@ -16,7 +19,10 @@ class MainWrapperState extends State<MainWrapper> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),
+    BlocProvider(
+      create: (context) => getIt<HomeCubit>(), // بنستخدم getIt عشان نجيب النسخة اللي جهزناها
+      child: const HomeScreen(),
+    ),
     StoreScreen(),
     SearchScreen(),
     LibraryScreen(),
