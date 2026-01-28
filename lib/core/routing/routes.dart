@@ -5,7 +5,7 @@ class Routes {
   static const String homeScreen = '/homeScreen';
   static const String mainScreen = '/mainScreen';
   static const String gameDetailsScreen = '/gameDetailsScreen';
-  // static const String editProfile = '/editProfile';
+  static const String profileLogout = '/profileLogout';
   static const String favoritesScreen = '/favoritesScreen';
   // static const String allCards = '/allCards';
   // static const String addNewCard = '/addNewCard';

@@ -3,18 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/extensions.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class GameHeaderCard extends StatelessWidget {
-  const GameHeaderCard({super.key});
+  final GameModel? gameModel;
+  const GameHeaderCard({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routes.gameDetailsScreen);
+        context.pushNamed(
+            Routes.gameDetailsScreen,
+            arguments: gameModel,
+          );
       },
       child: Container(
-        width: 300.w, // عرض الكارت
+        width: 300.w,
         margin: EdgeInsets.only(right: 16.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24.r),
@@ -41,8 +46,8 @@ class GameHeaderCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Cyberpunk 2077', style: TextStyles.font16WhiteSemiBold),
-                  Text('Action • RPG', style: TextStyles.font14GreyRegular),
+                  Text(gameModel?.name ?? 'Unknown Game', style: TextStyles.font16WhiteSemiBold),
+                  Text(gameModel?.category ?? 'Unknown Genre', style: TextStyles.font14GreyRegular),
                 ],
               ),
             ),

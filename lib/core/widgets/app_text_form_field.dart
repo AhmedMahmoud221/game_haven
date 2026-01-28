@@ -46,6 +46,7 @@ class AppTextFormField extends StatelessWidget {
             width: 1.3,
           ),
         ),
+        
         // حالة الخطأ
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
@@ -61,11 +62,12 @@ class AppTextFormField extends StatelessWidget {
             width: 1.3,
           ),
         ),
+
         // الحالة العادية
         enabledBorder: enabledBorder ?? OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
           borderSide: const BorderSide(
-            color: Colors.transparent, // مخفي عشان يبان كقطعة واحدة مع الخلفية
+            color: Colors.transparent,
             width: 1.3,
           ),
         ),
@@ -73,7 +75,7 @@ class AppTextFormField extends StatelessWidget {
         hintText: hintText,
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: backgroundColor ?? ColorsManager.cardGrey, // رمادي غامق جداً
+        fillColor: backgroundColor ?? ColorsManager.cardGrey,
       ),
       obscureText: isObscureText ?? false,
       style: inputTextStyle ?? TextStyles.font12AccentPinkRegular.copyWith(color: Colors.white),

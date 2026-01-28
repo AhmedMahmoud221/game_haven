@@ -9,10 +9,10 @@ import 'package:game_haven/core/theming/styles.dart';
 import 'package:game_haven/core/widgets/games_shimmer_loading.dart';
 import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
 import 'package:game_haven/features/home/logic/cubit/home_state.dart';
-import 'package:game_haven/features/home/widgets/category_item.dart';
-import 'package:game_haven/features/home/widgets/game_header_card.dart';
-import 'package:game_haven/features/home/widgets/game_search_delegate.dart';
-import 'package:game_haven/features/home/widgets/popular_game_tile.dart';
+import 'package:game_haven/features/home/ui/widgets/category_item.dart';
+import 'package:game_haven/features/home/ui/widgets/game_header_card.dart';
+import 'package:game_haven/features/home/ui/widgets/game_search_delegate.dart';
+import 'package:game_haven/features/home/ui/widgets/popular_game_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -130,31 +130,42 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // 2.(Horizontal Slider)
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Text(
-                      'Popular Picks',
-                      style: TextStyles.font26WhiteSemiBold,
+            BlocBuilder<HomeCubit, HomeState>(
+              buildWhen: (previous, current) =>
+                  current is HomeLoading || current is HomeSuccess || current is HomeError,
+              builder: (context, state) {
+                if (state is HomeSuccess) {
+                  return SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          child: Text(
+                            'Popular Picks',
+                            style: TextStyles.font26WhiteSemiBold,
+                          ),
+                        ),
+                        verticalSpace(16),
+                        SizedBox(
+                          height: 250.h,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.only(left: 20.w),
+                            itemCount: state.games.length, 
+                            itemBuilder: (context, index) {
+                              return GameHeaderCard(
+                                gameModel: state.games[index],
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  verticalSpace(16),
-                  SizedBox(
-                    height: 250.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.only(left: 20.w),
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return const GameHeaderCard();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                  );
+                }
+                return const SliverToBoxAdapter(child: SizedBox.shrink());
+              },
             ),
 
             // 3.(Most Popular)
@@ -173,14 +184,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
             BlocBuilder<HomeCubit, HomeState>(
               buildWhen: (previous, current) =>
-                  current is HomeLoading || current is HomeSuccess || current is HomeError,
+                  current is HomeLoading ||
+                  current is HomeSuccess ||
+                  current is HomeError,
               builder: (context, state) {
                 if (state is HomeSuccess) {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) => PopularGameTile(
-                        gameModel: state.games[index],
-                      ),
+                      (context, index) =>
+                          PopularGameTile(gameModel: state.games[index]),
                       childCount: state.games.length,
                     ),
                   );
@@ -188,7 +200,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const SliverToBoxAdapter(child: GamesShimmerLoading());
                 } else if (state is HomeError) {
                   return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message, style: TextStyles.font14GreyRegular)),
+                    child: Center(
+                      child: Text(
+                        state.message,
+                        style: TextStyles.font14GreyRegular,
+                      ),
+                    ),
                   );
                 }
                 return const SliverToBoxAdapter(child: SizedBox.shrink());

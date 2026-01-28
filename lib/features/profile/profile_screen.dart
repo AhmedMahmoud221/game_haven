@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:game_haven/core/helpers/extensions.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
+import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/auth/logic/cubit/login_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -56,15 +60,15 @@ class ProfileScreen extends StatelessWidget {
               verticalSpace(40),
               // 3. Settings Menu (قائمة الخيارات)
               _buildMenuCard([
-                _buildMenuItem(Icons.person_outline, 'Edit Profile'),
-                _buildMenuItem(Icons.notifications_none, 'Notifications'),
-                _buildMenuItem(Icons.security, 'Security'),
-                _buildMenuItem(Icons.help_outline, 'Help & Support'),
+                _buildMenuItem(context, Icons.person_outline, 'Edit Profile'),
+                _buildMenuItem(context, Icons.notifications_none, 'Notifications'),
+                _buildMenuItem(context, Icons.security, 'Security'),
+                _buildMenuItem(context, Icons.help_outline, 'Help & Support'),
               ]),
 
               verticalSpace(20),
               // زرار تسجيل الخروج
-              _buildMenuItem(Icons.logout, 'Logout', isLogout: true),
+              _buildMenuItem(context, Icons.logout, 'Logout', isLogout: true),
               verticalSpace(40),
             ],
           ),
@@ -95,8 +99,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Widget للعنصر الواحد في القائمة
-  Widget _buildMenuItem(IconData icon, String title, {bool isLogout = false}) {
+  // ignore: strict_top_level_inference
+  Widget _buildMenuItem(BuildContext context, IconData icon, String title, {bool isLogout = false}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: ListTile(
@@ -108,7 +112,35 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         trailing: isLogout ? null : const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
-        onTap: () {},
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (dialogContext) => AlertDialog( 
+              title: Text("Logout", style: TextStyles.font18WhiteMedium), 
+              content: Text("Are you sure you want to exit?", style: TextStyles.font14GreyRegular),
+              backgroundColor: const Color.fromARGB(255, 27, 27, 27),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext), 
+                  child: const Text("Cancel", style: TextStyle(color: Colors.white))
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await context.read<LoginCubit>().logout();
+
+                    if (context.mounted) {
+                      context.pushNamedAndRemoveUntil(
+                        Routes.loginScreen,
+                        predicate: (route) => false,
+                      );
+                    }
+                  },
+                  child: const Text("Logout", style: TextStyle(color: Colors.red)),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

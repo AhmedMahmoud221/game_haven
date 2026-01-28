@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
-import 'package:game_haven/features/home/widgets/popular_game_tile.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
+import 'package:game_haven/features/home/ui/widgets/popular_game_tile.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+  final GameModel? gameModel;
+  const FavoritesScreen({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +22,11 @@ class FavoritesScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: 1 == 0 // هنغير الشرط ده لما نربط الداتا الحقيقية
+      body: gameModel == null
           ? buildEmptyState() 
           : ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 16.h),
-              itemCount: 5, // داتا تجريبية
+              itemCount: 1,
               itemBuilder: (context, index) {
                 return const PopularGameTile();
               },

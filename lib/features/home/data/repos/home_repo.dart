@@ -10,9 +10,9 @@ class HomeRepo {
   Future<List<GameModel>> getAllGames() async {
     try {
       final response = await _apiService.getAllGames();
-      return response;
+      // بنرجع الـ List اللي جوه الـ data اللي جوه الـ response
+      return response.data?.games ?? []; 
     } catch (e) {
-      // هنا ممكن تهندل الـ Error بطريقة أشيك قدام (ErrorHandler)
       throw Exception("Failed to load games: $e");
     }
   }

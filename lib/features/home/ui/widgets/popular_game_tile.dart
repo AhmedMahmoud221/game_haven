@@ -17,7 +17,10 @@ class PopularGameTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
       child: GestureDetector(
         onTap: () {
-          context.pushNamed(Routes.gameDetailsScreen);
+          context.pushNamed(
+            Routes.gameDetailsScreen,
+            arguments: gameModel,
+          );
         },
         child: Container(
           padding: EdgeInsets.all(12.r),
@@ -45,12 +48,12 @@ class PopularGameTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Elden Ring',
+                      gameModel?.name ?? 'Unknown Game',
                       style: TextStyles.font16WhiteSemiBold,
                     ),
                     verticalSpace(4),
                     Text(
-                      'Action • RPG',
+                      gameModel?.category ?? 'Unknown Genre',
                       style: TextStyles.font13GreyRegular,
                     ),
                   ],
@@ -65,11 +68,11 @@ class PopularGameTile extends StatelessWidget {
                     children: [
                       const Icon(Icons.star, color: Colors.amber, size: 16),
                       horizontalSpace(4),
-                      Text('4.8', style: TextStyles.font14GreyRegular),
+                      Text("${gameModel?.ratingsAverage ?? 0.0}", style: TextStyles.font14GreyRegular),
                     ],
                   ),
                   verticalSpace(8),
-                  Text('\$59.99', style: TextStyles.font14PurpleSemiBold),
+                  Text('\$${gameModel?.price ?? 0.0}', style: TextStyles.font14PurpleSemiBold),
                 ],
               ),
             ],

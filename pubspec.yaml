@@ -39,6 +39,9 @@ dependencies:
   flutter_lints: ^6.0.0
   flutter_native_splash: ^2.4.7
   flutter_screenutil: ^5.9.3
+  flutter_secure_storage: ^10.0.0
+  freezed: ^3.2.4
+  freezed_annotation: ^3.1.0
   get_it: ^9.2.0
   json_annotation: ^4.9.0
   json_serializable: ^6.11.4

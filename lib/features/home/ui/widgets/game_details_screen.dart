@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class GameDetailsScreen extends StatefulWidget {
-  const GameDetailsScreen({super.key});
+  final GameModel? gameModel;
+  const GameDetailsScreen({super.key, this.gameModel});
 
   @override
   State<GameDetailsScreen> createState() => _GameDetailsScreenState();
@@ -58,7 +60,7 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Galactic Odyssey:\nInfinite Horizon',
+                              widget.gameModel?.name ?? 'Unknown Game',
                               style: TextStyles.font26WhiteSemiBold,
                             ),
                           ),
@@ -74,7 +76,26 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                           ),
                         ],
                       ),
+                      Text(
+                        'Developed by ${widget.gameModel?.author ?? "Unknown"}', 
+                        style: TextStyles.font14GreyRegular
+                      ),
                       verticalSpace(12),
+
+                      // (Info Chips)
+                      SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _buildInfoChip(Icons.category, widget.gameModel?.category ?? 'Action'),
+                          horizontalSpace(16),
+                          _buildInfoChip(Icons.star, "${widget.gameModel?.ratingsAverage ?? 0}"),
+                          horizontalSpace(16),
+                          _buildInfoChip(Icons.language, widget.gameModel?.language ?? 'English'),
+                        ],
+                      ),
+                    ),
+                      verticalSpace(20),
                       
                       // (rated)
                       Row(
@@ -84,16 +105,17 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                           Text('Rated T - Mild Violence', style: TextStyles.font14GreyRegular),
                         ],
                       ),
-                      
                       verticalSpace(30),
+                      
+                      // (description)
                       Text('Description', style: TextStyles.font18WhiteMedium),
                       verticalSpace(12),
                       Text(
-                        'Embark on an epic journey through the stars. Customize your fleet, forge alliances, and discover uncharted worlds in this open-universe adventure.',
+                        widget.gameModel?.description ?? 'No description available.',
                         style: TextStyles.font14GreyRegular.copyWith(height: 1.5),
                       ),
-                      
                       verticalSpace(40),
+                      
                       // (pay & share)
                       Row(
                         children: [
@@ -105,10 +127,15 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
                               ),
                               onPressed: () {},
-                              child: Text('Buy now', style: TextStyles.font16WhiteSemiBold),
+                              child: Text(
+                                'Buy now - \$${widget.gameModel?.price?.toStringAsFixed(2) ?? "0.00"}', 
+                                style: TextStyles.font16WhiteSemiBold
+                              ),
                             ),
                           ),
                           horizontalSpace(16),
+
+                          // (share)
                           Container(
                             padding: EdgeInsets.all(12.r),
                             decoration: BoxDecoration(
@@ -141,6 +168,19 @@ class _GameDetailsScreenState extends State<GameDetailsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+
+
+  // Helper method لتنسيق الشكل
+  Widget _buildInfoChip(IconData icon, String label) {
+    return Row(
+      children: [
+        Icon(icon, color: ColorsManager.mainPurple, size: 18.sp),
+        horizontalSpace(4),
+        Text(label, style: TextStyles.font14GreyRegular),
+      ],
     );
   }
 }

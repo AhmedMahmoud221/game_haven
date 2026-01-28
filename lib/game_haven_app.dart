@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/routing/app_router.dart';
-import 'package:game_haven/core/routing/routes.dart';
+// import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
 
 class GameHavenApp extends StatelessWidget {
   final AppRouter appRouter;
-  const GameHavenApp({super.key, required this.appRouter});
+  final String initialRoute;
+  const GameHavenApp({super.key, required this.appRouter, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class GameHavenApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.onBoardingScreen,
+        initialRoute: initialRoute,
         onGenerateRoute: appRouter.generateRoute,
        );
       },
