@@ -1,4 +1,4 @@
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:game_haven/core/di/dependency_injection.dart';
 import 'package:game_haven/core/helpers/shared_pref_helper.dart';
@@ -12,6 +12,8 @@ void main() async {
   await setupGetIt();
 
   String? token = await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken);
+
+  await Firebase.initializeApp();
 
   String initialRoute = (token != null && token.isNotEmpty) 
       ? Routes.mainScreen 
