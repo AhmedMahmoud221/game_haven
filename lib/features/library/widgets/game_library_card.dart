@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class GameLibraryCard extends StatelessWidget {
-  const GameLibraryCard({super.key});
+  final GameModel? gameModel;
+  const GameLibraryCard({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +40,13 @@ class GameLibraryCard extends StatelessWidget {
         ),
         verticalSpace(8),
         Text(
-          'God of War',
+          gameModel?.name ?? 'Unknown Game',
           style: TextStyles.font14GreyRegular,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          '24 Hours played',
+          '${gameModel?.ratingsAverage ?? 0} Ratings',
           style: TextStyles.font13GreyRegular,
         ),
       ],

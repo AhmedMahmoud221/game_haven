@@ -4,9 +4,11 @@ import 'package:game_haven/core/helpers/extensions.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class BrandNewGameItem extends StatelessWidget {
-  const BrandNewGameItem({super.key});
+  final GameModel? gameModel;
+  const BrandNewGameItem({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class BrandNewGameItem extends StatelessWidget {
               ],
             ),
             verticalSpace(8),
-            Text('Cyber Ninja Reboot', style: TextStyles.font16WhiteSemiBold, maxLines: 1, overflow: TextOverflow.ellipsis),
+            Text(gameModel?.name ?? 'Unknown Game', style: TextStyles.font16WhiteSemiBold, maxLines: 1, overflow: TextOverflow.ellipsis),
           ],
         ),
       ),

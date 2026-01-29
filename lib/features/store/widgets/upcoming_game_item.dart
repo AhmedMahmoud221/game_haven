@@ -5,9 +5,11 @@ import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/home/data/models/game_model.dart';
 
 class UpcomingGameItem extends StatelessWidget {
-  const UpcomingGameItem({super.key});
+  final GameModel? gameModel;
+  const UpcomingGameItem({super.key, this.gameModel});
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +53,14 @@ class UpcomingGameItem extends StatelessWidget {
             ),
             verticalSpace(8),
             Text(
-              'Crimson Dusk',
+              gameModel?.name ?? 'Unknown Game',
               style: TextStyles.font16WhiteSemiBold,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             verticalSpace(2),
             Text(
-              '\$59.99',
+              '\$${gameModel?.price ?? "0.00"}',
               style: TextStyles.font13GreyRegular.copyWith(color: ColorsManager.mainGrey),
             ),
           ],

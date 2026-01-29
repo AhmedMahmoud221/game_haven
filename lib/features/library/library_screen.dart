@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/core/widgets/games_shimmer_loading_library.dart';
+import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
+import 'package:game_haven/features/home/logic/cubit/home_state.dart';
 import 'package:game_haven/features/library/widgets/game_library_card.dart';
 
 class LibraryScreen extends StatelessWidget {
@@ -47,17 +51,40 @@ class LibraryScreen extends StatelessWidget {
   }
 
   Widget _buildAllGamesList() {
-    return GridView.builder(
-      padding: EdgeInsets.all(20.w),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, 
-        crossAxisSpacing: 16.w,
-        mainAxisSpacing: 16.h,
-        childAspectRatio: 0.7, 
-      ),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return const GameLibraryCard();
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        // ✅ حالة النجاح
+        if (state is HomeSuccess) {
+          return RefreshIndicator(
+            onRefresh: () async => context.read<HomeCubit>().emitGetGamesStates(),
+            child: GridView.builder(
+              padding: EdgeInsets.all(20.w),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.w,
+                mainAxisSpacing: 16.h,
+                childAspectRatio: 0.7,
+              ),
+              itemCount: state.games.length,
+              itemBuilder: (context, index) {
+                return GameLibraryCard(gameModel: state.games[index]);
+              },
+            ),
+          );
+        } 
+        
+        // ✅ حالة الـ Loading (أو أي حالة تانية غير النجاح)
+        return GridView.builder(
+          padding: EdgeInsets.all(20.w),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16.w,
+            mainAxisSpacing: 16.h,
+            childAspectRatio: 0.7,
+          ),
+          itemCount: 6,
+          itemBuilder: (context, index) => const GamesShimmerLoadingLibrary(),
+        );
       },
     );
   }

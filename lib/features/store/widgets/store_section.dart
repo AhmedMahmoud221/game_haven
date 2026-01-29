@@ -29,12 +29,7 @@ class StoreSection extends StatelessWidget {
         ),
         SizedBox(
           height: itemHeight,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.only(left: 20.w),
-            itemCount: 5,
-            itemBuilder: (context, index) => child,
-          ),
+          child: child,
         ),
       ],
     );
