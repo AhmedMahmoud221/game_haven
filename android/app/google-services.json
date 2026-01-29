@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "471308320747",
-    "project_id": "gamehaven-24c77",
-    "storage_bucket": "gamehaven-24c77.firebasestorage.app"
+    "project_number": "775838316564",
+    "project_id": "game-haven-2608d",
+    "storage_bucket": "game-haven-2608d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:471308320747:android:bd5aa651463741893e63ae",
+        "mobilesdk_app_id": "1:775838316564:android:867247405bfbd4ed394f01",
         "android_client_info": {
           "package_name": "com.example.game_haven"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC8lOeBhqjVi8xGq5wFgbBEjP2P7szJCAM"
+          "current_key": "AIzaSyDoSaeAO3aD9sl7vvKpygnmlt1tIe6sN_w"
         }
       ],
       "services": {
