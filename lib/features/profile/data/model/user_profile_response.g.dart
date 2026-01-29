@@ -14,19 +14,11 @@ UserProfileResponse _$UserProfileResponseFromJson(Map<String, dynamic> json) =>
           : UserData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$UserProfileResponseToJson(
-  UserProfileResponse instance,
-) => <String, dynamic>{'status': instance.status, 'data': instance.data};
-
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
   user: json['user'] == null
       ? null
       : User.fromJson(json['user'] as Map<String, dynamic>),
 );
-
-Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
-  'user': instance.user,
-};
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
   id: json['id'] as String?,
@@ -35,11 +27,3 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
   username: json['username'] as String?,
   role: json['role'] as String?,
 );
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'email': instance.email,
-  'username': instance.username,
-  'role': instance.role,
-};

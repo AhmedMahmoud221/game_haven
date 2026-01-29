@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_profile_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class UserProfileResponse {
   final String? status;
   final UserData? data;
@@ -13,7 +13,7 @@ class UserProfileResponse {
       _$UserProfileResponseFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class UserData {
   final User? user;
 
@@ -22,7 +22,7 @@ class UserData {
   factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class User {
   final String? id;
   final String? name;

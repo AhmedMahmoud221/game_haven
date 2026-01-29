@@ -8,7 +8,6 @@ class DioFactory {
   static Dio? dio;
 
   static Dio getDio() {
-    print("💉 Dio is being initialized via DioFactory!");
     Duration timeOut = const Duration(seconds: 30);
 
     if (dio == null) {
@@ -36,9 +35,6 @@ class DioFactory {
         onRequest: (options, handler) async {
           final token = await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken);
           
-          // السطر ده لازم يطبع التوكن في الـ Console
-          print("🛠️ INTERCEPTOR TOKEN: $token"); 
-
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }

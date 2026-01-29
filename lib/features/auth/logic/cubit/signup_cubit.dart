@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_haven/core/helpers/shared_pref_helper.dart';
 import 'package:game_haven/features/auth/data/models/signup_request_body.dart';
 import 'package:game_haven/features/auth/data/repos/signup_repo.dart';

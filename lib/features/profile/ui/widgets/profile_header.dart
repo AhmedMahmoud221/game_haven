@@ -25,7 +25,7 @@ class ProfileHeader extends StatelessWidget {
         ),
         verticalSpace(16),
         Text(user?.name ?? 'Unknown User', style: TextStyles.font26WhiteSemiBold),
-        Text('@${user?.username ?? 'username'}', style: TextStyles.font14GreyRegular),
+        Text(user?.email ?? 'username', style: TextStyles.font14GreyRegular),
       ],
     );
   }

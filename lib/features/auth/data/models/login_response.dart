@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'login_response.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class LoginResponse {
   final String? status;
   final String? token;
@@ -13,9 +13,9 @@ class LoginResponse {
   factory LoginResponse.fromJson(Map<String, dynamic> json) => _$LoginResponseFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class UserData {
-  @JsonKey(name: "user") // لو الباكيند باعتها جوا كلمة user
+  @JsonKey(name: "user")
   final UserModel? userModel;
 
   UserData({this.userModel});
@@ -23,7 +23,7 @@ class UserData {
   factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class UserModel {
   final String? name;
   final String? email;
