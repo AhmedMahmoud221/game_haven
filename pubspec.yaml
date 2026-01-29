@@ -48,6 +48,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   retrofit: ^4.9.2
   retrofit_generator: ^10.2.1
+  shared_preferences: ^2.5.4
   shimmer: ^3.0.0
   syncfusion_flutter_sliders: ^32.1.24
 

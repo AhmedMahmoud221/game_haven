@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:game_haven/core/helpers/shared_pref_helper.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/core/theming/colors.dart';
@@ -41,7 +42,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: ColorsManager.mainBackground,
       body: Stack(
         children: [
-          // تم تغيير itemState إلى itemBuilder
           PageView.builder(
             controller: _pageController,
             onPageChanged: (index) => setState(() => _currentPage = index),
@@ -109,10 +109,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (_currentPage == _items.length - 1) {
-                      // هنا هتحط الـ Navigation لصفحة الـ Login
-                      Navigator.pushNamed(context, Routes.loginScreen);
+                      await SharedPrefHelper.setData('hasSeenOnboarding', true); 
+                      
+                      if (!context.mounted) return; 
+                      
+                      Navigator.pushReplacementNamed(context, Routes.loginScreen); 
                     } else {
                       _pageController.nextPage(
                         duration: const Duration(milliseconds: 500),

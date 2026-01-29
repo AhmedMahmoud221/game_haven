@@ -9,18 +9,28 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await setupGetIt();
 
+  // check user token from secure storage
   String? token = await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken);
 
+  // check if user has seen onboarding
+  bool hasSeenOnboarding = await SharedPrefHelper.getBool('hasSeenOnboarding');
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  String initialRoute = (token != null && token.isNotEmpty) 
-      ? Routes.mainScreen 
-      : Routes.loginScreen;
+  String initialRoute;
+
+  // determine initial route based on onboarding and authentication status
+  if (!hasSeenOnboarding) {
+    initialRoute = Routes.onBoardingScreen;
+  } else {
+    initialRoute = (token != null && token.isNotEmpty) 
+        ? Routes.mainScreen 
+        : Routes.loginScreen;
+  }
 
   runApp(GameHavenApp(
     appRouter: AppRouter(),
