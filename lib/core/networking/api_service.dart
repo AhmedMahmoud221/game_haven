@@ -8,7 +8,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_service.g.dart';
 
-@RestApi(baseUrl: "http://10.0.2.2:3000/")
+@RestApi(baseUrl: "https://neil-regional-doomfully.ngrok-free.dev/")
 abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 

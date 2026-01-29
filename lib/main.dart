@@ -5,6 +5,7 @@ import 'package:game_haven/core/helpers/shared_pref_helper.dart';
 import 'package:game_haven/core/routing/app_router.dart';
 import 'package:game_haven/core/routing/routes.dart';
 import 'package:game_haven/game_haven_app.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,9 @@ void main() async {
 
   String? token = await SharedPrefHelper.getSecuredString(SharedPrefKeys.userToken);
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   String initialRoute = (token != null && token.isNotEmpty) 
       ? Routes.mainScreen 
