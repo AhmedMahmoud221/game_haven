@@ -13,7 +13,7 @@ import 'package:game_haven/features/home/ui/main_wrapper.dart';
 import 'package:game_haven/features/home/ui/widgets/favorites_screen.dart';
 import 'package:game_haven/features/home/ui/widgets/game_details_screen.dart';
 import 'package:game_haven/features/onboarding/onboarding_screen.dart';
-import 'package:game_haven/features/profile/profile_screen.dart';
+import 'package:game_haven/features/profile/ui/profile_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {

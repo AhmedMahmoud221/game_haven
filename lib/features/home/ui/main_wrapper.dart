@@ -4,7 +4,7 @@ import 'package:game_haven/core/di/dependency_injection.dart';
 import 'package:game_haven/features/home/ui/home_screen.dart';
 import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
 import 'package:game_haven/features/library/library_screen.dart';
-import 'package:game_haven/features/profile/profile_screen.dart';
+import 'package:game_haven/features/profile/ui/profile_screen.dart';
 import 'package:game_haven/features/search/search_screen.dart';
 import 'package:game_haven/features/store/store_screen.dart';
 

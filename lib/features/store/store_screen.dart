@@ -18,7 +18,10 @@ class StoreScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             // 1. (Latest, Curated, etc.)
-            const SliverToBoxAdapter(child: StoreTopChips()),
+            SliverToBoxAdapter(child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 14.h),
+              child: const StoreTopChips(),
+            )),
 
             // 2.  Brand new adventures
             SliverToBoxAdapter(
