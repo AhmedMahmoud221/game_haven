@@ -1,10 +1,13 @@
 import 'package:game_haven/core/networking/api_service.dart';
+import 'package:game_haven/core/networking/dio_factory.dart';
 import 'package:game_haven/features/auth/data/repos/login_repo.dart';
 import 'package:game_haven/features/auth/data/repos/signup_repo.dart';
 import 'package:game_haven/features/auth/logic/cubit/login_cubit.dart';
 import 'package:game_haven/features/auth/logic/cubit/signup_cubit.dart';
 import 'package:game_haven/features/home/data/repos/home_repo.dart';
 import 'package:game_haven/features/home/logic/cubit/home_cubit.dart';
+import 'package:game_haven/features/profile/data/repos/profile_repository.dart';
+import 'package:game_haven/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 
@@ -19,8 +22,7 @@ Future<void> setupGetIt() async {
   });
 
   // 2. ApiService
-  getIt.registerLazySingleton<ApiService>(() => ApiService(getIt<Dio>()));
-
+  getIt.registerLazySingleton<ApiService>(() => ApiService(DioFactory.getDio()));
   // 3. Repos
   getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt<ApiService>()));
 
@@ -34,4 +36,8 @@ Future<void> setupGetIt() async {
   // signup
   getIt.registerLazySingleton<SignupRepo>(() => SignupRepo(getIt()));
   getIt.registerFactory<SignupCubit>(() => SignupCubit(getIt()));
+
+  // Profile
+  getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository(getIt<ApiService>()));
+  getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt<ProfileRepository>()));
 }

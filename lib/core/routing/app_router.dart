@@ -13,6 +13,7 @@ import 'package:game_haven/features/home/ui/main_wrapper.dart';
 import 'package:game_haven/features/home/ui/widgets/favorites_screen.dart';
 import 'package:game_haven/features/home/ui/widgets/game_details_screen.dart';
 import 'package:game_haven/features/onboarding/onboarding_screen.dart';
+import 'package:game_haven/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:game_haven/features/profile/ui/profile_screen.dart';
 
 class AppRouter {
@@ -58,8 +59,12 @@ class AppRouter {
 
       case Routes.mainScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<LoginCubit>(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<HomeCubit>()..emitGetGamesStates()),
+              BlocProvider(create: (context) => getIt<ProfileCubit>()..getProfileData()),
+              BlocProvider(create: (context) => getIt<LoginCubit>()),
+            ],
             child: const MainWrapper(),
           ),
         );
@@ -72,21 +77,22 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => GameDetailsScreen(gameModel: game),
         );
-      // case Routes.editProfile:
-      //   return MaterialPageRoute(builder: (_) => EditProfile());
-      // case Routes.personalInformation:
-      //   return MaterialPageRoute(builder: (_) => PersonalInformationScreen());
-      // case Routes.allCards:
-      //   return MaterialPageRoute(builder: (_) => AllCards());
-      // case Routes.addNewCard:
-      //   return MaterialPageRoute(builder: (_) => AddNewCard());
-      // case Routes.changePassword:
-      //   return MaterialPageRoute(builder: (_) => ChangePasswordScreen());
-      // case Routes.privacyPolicy:
-      //   return MaterialPageRoute(builder: (_) => PrivacyPolicy());
-      // case Routes.languageScreen:
-      //   return MaterialPageRoute(builder: (_) => LanguageSelectorScreen());
 
+      case Routes.profileScreen:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt<ProfileCubit>()..getProfileData(),
+              ),
+              BlocProvider(
+                create: (context) => getIt<LoginCubit>(),
+              ),
+            ],
+            child: const ProfileScreen(),
+          ),
+        );
+      
       default:
         return null;
     }

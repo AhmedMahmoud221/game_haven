@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:game_haven/core/helpers/spacing.dart';
 import 'package:game_haven/core/theming/colors.dart';
 import 'package:game_haven/core/theming/styles.dart';
+import 'package:game_haven/features/profile/data/model/user_profile_response.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  final User? user;
+  const ProfileHeader({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class ProfileHeader extends StatelessWidget {
           ],
         ),
         verticalSpace(16),
-        Text('Ahmed Gamer', style: TextStyles.font26WhiteSemiBold),
-        Text('Level 24 • Pro Explorer', style: TextStyles.font14GreyRegular),
+        Text(user?.name ?? 'Unknown User', style: TextStyles.font26WhiteSemiBold),
+        Text('@${user?.username ?? 'username'}', style: TextStyles.font14GreyRegular),
       ],
     );
   }

@@ -23,7 +23,6 @@ class LoginCubit extends Cubit<LoginState> {
         ),
       );
       
-      // حفظ التوكن أول ما يرجع من السيرفر
       if (response.token != null) {
         await SharedPrefHelper.setSecuredString(SharedPrefKeys.userToken, response.token!);
       }
